@@ -110,9 +110,9 @@ def parse_vless(vless_url):
         }
     except: return None
 
-def generate_vless(ip, sni, base_params, ping_ms):
-    # ArchiveTell Branded Remark
-    remark = f"{BRAND_NAME}_{ping_ms:.0f}ms_{sni.split('.')[0]}"
+def generate_vless(ip, sni, base_params, ping_ms, dns_tag):
+    remark = f"{BRAND_NAME}_{dns_tag}_{ping_ms:.0f}ms_{sni.split('.')[0]}"
+    
     host_q = quote(base_params.get("host", ""), safe='')
     path_q = quote(base_params.get("path", ""), safe='')
     alpn_q = quote(base_params.get("alpn", ""), safe='')
@@ -124,7 +124,7 @@ def generate_vless(ip, sni, base_params, ping_ms):
         f"sni={sni}&type={base_params.get('type', 'xhttp')}#{remark}"
     )
 
-def hardcore_test(ip, sni, base_params):
+def hardcore_test(ip, sni, base_params, dns_mode):
     """
     2-Stage Hardcore Testing Algorithm (Defeats Fake Ping)
     """
@@ -144,13 +144,15 @@ def hardcore_test(ip, sni, base_params):
         "-H", "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
     ]
     
+    if dns_mode == "2":
+        cmd.extend(["--dns-servers", "178.22.122.100,185.51.200.2"])
+    
     try:
         flags = subprocess.CREATE_NO_WINDOW if os.name == 'nt' else 0
         result = subprocess.run(cmd, capture_output=True, text=True, creationflags=flags)
         
         output = result.stdout.strip()
-        if not output or ":" not in output:
-            return None
+        if not output or ":" not in output: return None
             
         parts = output.split(":")
         http_code = parts[0]
@@ -168,7 +170,8 @@ def hardcore_test(ip, sni, base_params):
         if http_code in bad_codes: return None
             
         # Success! Generate VLESS based on actual payload round-trip time
-        config_str = generate_vless(ip, sni, base_params, total_time)
+        dns_tag = "SH" if dns_mode == "2" else "DIR"
+        config_str = generate_vless(ip, sni, base_params, total_time, dns_tag)
         return ip, sni, total_time, http_code, config_str
         
     except:
@@ -176,17 +179,32 @@ def hardcore_test(ip, sni, base_params):
     return None
 
 def main():
+    # Prevent Termux/Android from killing the process (Signal 9)
+    if os.name != 'nt':
+        try:
+            subprocess.run(["termux-wake-lock"], capture_output=True)
+        except:
+            pass
+
     if os.name == 'nt': os.system('color')
     clear_screen()
     
     print(f"{CYAN}╔═══════════════════════════════════════════════════════════╗{RESET}")
-    print(f"{CYAN}║{RESET}  {BOLD}{MAGENTA}🚀 V1 PRO SCANNER - ARCHIVETELL EDITION{RESET}                 {CYAN}║{RESET}")
+    print(f"{CYAN}║{RESET}  {BOLD}{MAGENTA}🚀 V2 PRO SCANNER - ARCHIVETELL EDITION{RESET}                 {CYAN}║{RESET}")
     print(f"{CYAN}╚═══════════════════════════════════════════════════════════╝{RESET}")
     print(f"{YELLOW}  * Developer: {AUTHOR}{RESET}")
     print(f"{YELLOW}  * Channel:   {TELEGRAM_CH}{RESET}")
     print(f"{YELLOW}  * Engine:    2-Stage DPI Bypasser (No Fake Pings){RESET}\n")
 
-    vless_input = input(f"  {BOLD}{CYAN}Paste your working VLESS baseline link:{RESET}\n  > ").strip()
+    # --- 1. DNS Selection ---
+    print(f"  {BOLD}{CYAN}Select Network Mode:{RESET}")
+    print(f"  {GREEN}[1]{RESET} Direct (No DNS Bypass)")
+    print(f"  {GREEN}[2]{RESET} Shecan DNS Bypass (178.22.122.100)")
+    print(f"  {YELLOW}Note: If choosing Mode 2, ensure your IP is updated on Shecan servers first.{RESET}")
+    dns_mode = input(f"\n  {YELLOW}Mode Choice [1-2] (Default 1): {RESET}").strip() or "1"
+
+    # --- 2. VLESS Input ---
+    vless_input = input(f"\n  {BOLD}{CYAN}Paste your working VLESS baseline link:{RESET}\n  > ").strip()
     base_params = parse_vless(vless_input)
     
     if not base_params:
@@ -194,19 +212,26 @@ def main():
         time.sleep(2)
         sys.exit()
         
-    print(f"\n  {GREEN}✔ Config Validated. (Host: {base_params['host']}){RESET}\n")
-    
+    print(f"  {GREEN}✔ Config Validated. (Host: {base_params['host']}){RESET}\n")
+
+    # --- 3. Thread Setup ---
+    print(f"  {BOLD}{CYAN}Set Max Threads:{RESET}")
+    print(f"  {YELLOW}(Enter 30-50 for Mobile/Termux to avoid crashes, 100+ for PC){RESET}")
+    try:
+        threads = int(input(f"  {YELLOW}Threads (Default 40): {RESET}").strip() or 40)
+    except ValueError:
+        threads = 40
+        
     total_tests = len(IPS) * len(DOMAINS)
-    print(f"  {CYAN}[*] Database Loaded: {len(IPS)} IPs | {len(DOMAINS)} SNIs (Total: {total_tests} Tests){RESET}")
+    print(f"\n  {CYAN}[*] Database: {len(IPS)} IPs | {len(DOMAINS)} SNIs (Total: {total_tests} Tests){RESET}")
     print(f"  {MAGENTA}[*] Initiating Hardcore Network Scan... Please wait...{RESET}\n")
     
     working_configs = []
     completed = 0
-    threads = 120 # Fast scanning for the expanded list
 
     with ThreadPoolExecutor(max_workers=threads) as executor:
         try:
-            futures = {executor.submit(hardcore_test, ip, sni, base_params): (ip, sni) for ip in IPS for sni in DOMAINS}
+            futures = {executor.submit(hardcore_test, ip, sni, base_params, dns_mode): (ip, sni) for ip in IPS for sni in DOMAINS}
             
             for future in as_completed(futures):
                 completed += 1
@@ -221,22 +246,25 @@ def main():
                     working_configs.append((ping_ms, config))
                     
                     # Clear line for positive match
-                    sys.stdout.write(f"\r{' ' * 80}\r") 
+                    sys.stdout.write(f"\r{' ' * 90}\r") 
                     
                     color = GREEN if ping_ms < 800 else YELLOW
-                    print(f"  {GREEN}✔ CONNECTED!{RESET} IP: {ip:<15} | SNI: {sni:<25} | Real Ping: {color}{ping_ms:.0f}ms{RESET} (Code: {http_code})")
+                    # Show Success Message
+                    print(f"  {GREEN}✔ CONNECTED!{RESET} IP: {ip:<15} | SNI: {sni:<22} | Ping: {color}{ping_ms:.0f}ms{RESET}")
+                    # Show Config directly in Terminal
+                    print(f"  {MAGENTA}└─>{RESET} {config}\n")
 
         except KeyboardInterrupt:
             print(f"\n\n  {RED}[!] Scan interrupted by {AUTHOR}. Saving found configs...{RESET}")
             executor.shutdown(wait=False, cancel_futures=True)
 
-    print(f"\n\n{CYAN}═════════════════════════════════════════════════════════════{RESET}")
+    print(f"\n{CYAN}═════════════════════════════════════════════════════════════{RESET}")
     if working_configs:
         working_configs.sort(key=lambda x: x[0])
         
         filename = f"{BRAND_NAME}_Verified_Configs.txt"
         with open(filename, "w") as f:
-            f.write(f"// Generated by {BRAND_NAME} Scanner (V1 PRO)\n")
+            f.write(f"// Generated by {BRAND_NAME} Scanner\n")
             f.write(f"// Channel: {TELEGRAM_CH}\n")
             f.write(f"// Developer: {AUTHOR}\n")
             f.write(f"// Note: All configs passed 2-Stage Verification (TLS + HTTP)\n\n")
