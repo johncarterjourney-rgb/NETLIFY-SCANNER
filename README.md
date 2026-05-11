@@ -1,7 +1,7 @@
-# 🚀 IR-NETLIFY Scanner (Ultimate Edition)
+# 🚀 IR-NETLIFY Scanner (PRO Edition)
 
 [![Python 3.x](https://img.shields.io/badge/Python-3.x-blue.svg)](https://www.python.org/)
-[![Version](https://img.shields.io/badge/Version-V10%20Pro-success.svg)](#)
+[![Version](https://img.shields.io/badge/Version-V1%20Pro-success.svg)](#)
 [![Telegram](https://img.shields.io/badge/Telegram-@IR__NETLIFY-2CA5E0.svg)](https://t.me/IR_NETLIFY)
 
 اسکنر قدرتمند، هوشمند و چند‌تِرد برای پیدا کردن IP و دامنه‌های (SNI) متصل و بدون فیلتر جهت ساخت کانفیگ‌های VLESS بر بستر Netlify و Kubernetes. ⚡
