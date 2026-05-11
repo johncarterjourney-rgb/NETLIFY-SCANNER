@@ -1,11 +1,11 @@
-# 🚀 ArchiveTell VLESS Scanner (V1 Pro Ultimate)
+# 🚀 NETLIFY VLESS Scanner (V1 Pro Ultimate)
 
 [![Python 3.x](https://img.shields.io/badge/Python-3.x-blue.svg)](https://www.python.org/)
 [![Version](https://img.shields.io/badge/Version-V1%20Pro-success.svg)](#)
 [![Channel](https://img.shields.io/badge/Telegram-@ArchiveTell-2CA5E0.svg)](https://t.me/archivetell)
 [![Developer](https://img.shields.io/badge/Developer-Bachelor⚡️-orange.svg)](#)
 
-اسکنر قدرتمند، هوشمند و چند‌تِرد **ArchiveTell** برای پیدا کردن IP و دامنه‌های (SNI) متصل و بدون فیلتر جهت ساخت کانفیگ‌های VLESS قطعی. ⚡
+اسکنر قدرتمند، هوشمند و چند‌تِرد **NETLIFY** برای پیدا کردن IP و دامنه‌های (SNI) متصل و بدون فیلتر جهت ساخت کانفیگ‌های VLESS قطعی. ⚡
 
 در نسخه V10 Pro، این اسکنر از یک **الگوریتم سخت‌گیرانه ۲ مرحله‌ای (TLS + HTTP)** استفاده می‌کند تا مشکل اعصاب‌خردکن «پینگِ فیک» را کاملاً دور بزند. اگر کانفیگی در این اسکنر تایید شود، **صد در صد** روی برنامه‌های V2ray متصل خواهد شد.
 
