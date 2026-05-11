@@ -145,7 +145,7 @@ def hardcore_test(ip, sni, base_params, dns_mode):
     ]
     
     if dns_mode == "2":
-        cmd.extend(["--dns-servers", "178.22.122.100,185.51.200.2"])
+        cmd.extend(["--dns-servers", "178.22.122.101,185.51.200.2"])
     
     try:
         flags = subprocess.CREATE_NO_WINDOW if os.name == 'nt' else 0
@@ -199,7 +199,7 @@ def main():
     # --- 1. DNS Selection ---
     print(f"  {BOLD}{CYAN}Select Network Mode:{RESET}")
     print(f"  {GREEN}[1]{RESET} Direct (No DNS Bypass)")
-    print(f"  {GREEN}[2]{RESET} Shecan DNS Bypass (178.22.122.100)")
+    print(f"  {GREEN}[2]{RESET} Shecan DNS Bypass (178.22.122.101)")
     print(f"  {YELLOW}Note: If choosing Mode 2, ensure your IP is updated on Shecan servers first.{RESET}")
     dns_mode = input(f"\n  {YELLOW}Mode Choice [1-2] (Default 1): {RESET}").strip() or "1"
 
