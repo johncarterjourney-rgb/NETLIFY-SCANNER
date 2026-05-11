@@ -1,32 +1,33 @@
-# 🚀 IR-NETLIFY Scanner (PRO Edition)
+# 🚀 ArchiveTell VLESS Scanner (V10 Pro Ultimate)
 
 [![Python 3.x](https://img.shields.io/badge/Python-3.x-blue.svg)](https://www.python.org/)
-[![Version](https://img.shields.io/badge/Version-V1%20Pro-success.svg)](#)
-[![Telegram](https://img.shields.io/badge/Telegram-@IR__NETLIFY-2CA5E0.svg)](https://t.me/IR_NETLIFY)
+[![Version](https://img.shields.io/badge/Version-V10%20Pro-success.svg)](#)
+[![Channel](https://img.shields.io/badge/Telegram-@ArchiveTell-2CA5E0.svg)](https://t.me/archivetell)
+[![Developer](https://img.shields.io/badge/Developer-Bachelor⚡️-orange.svg)](#)
 
-اسکنر قدرتمند، هوشمند و چند‌تِرد برای پیدا کردن IP و دامنه‌های (SNI) متصل و بدون فیلتر جهت ساخت کانفیگ‌های VLESS بر بستر Netlify و Kubernetes. ⚡
+اسکنر قدرتمند، هوشمند و چند‌تِرد **ArchiveTell** برای پیدا کردن IP و دامنه‌های (SNI) متصل و بدون فیلتر جهت ساخت کانفیگ‌های VLESS قطعی. ⚡
 
-در نسخه جدید، اسکنر از یک **الگوریتم سخت‌گیرانه ۲ مرحله‌ای (TLS + HTTP)** استفاده می‌کند تا مشکل «پینگِ فیک» را کاملاً دور بزند. اگر کانفیگی در این نسخه خروجی داده شود، **صد در صد** روی برنامه‌های V2ray متصل خواهد شد.
+در نسخه V10 Pro، این اسکنر از یک **الگوریتم سخت‌گیرانه ۲ مرحله‌ای (TLS + HTTP)** استفاده می‌کند تا مشکل اعصاب‌خردکن «پینگِ فیک» را کاملاً دور بزند. اگر کانفیگی در این اسکنر تایید شود، **صد در صد** روی برنامه‌های V2ray متصل خواهد شد.
 
 ---
 
-## ✨ ویژگی‌های جدید و کلیدی
+## ✨ ویژگی‌های کلیدی (V10 Pro)
 
-* 🛡️ **عبور از فیلترینگ هوشمند (DPI):** تست واقعی لایه اپلیکیشن برای جلوگیری از دریافت پینگ‌های فیک (کد خطای 000).
-* 🌐 **دیتابیس داخلی غنی:** شامل بیش از ۱۷۰ دامنه CNCF/Cloud-Native و IPهای تمیز CDN (بدون نیاز به فایل‌های متنی جداگانه).
-* ⚙️ **تولید خودکار کانفیگ:** کافیست لینک VLESS پایه خود را به برنامه بدهید تا کانفیگ‌های جدید و متصل را برایتان بسازد.
+* 🛡️ **عبور از فیلترینگ هوشمند (DPI):** تست واقعی لایه اپلیکیشن (HTTP Status) برای جلوگیری از دریافت پینگ‌های فیک و دراپ شدن پکت‌ها.
+* 🌐 **دیتابیس داخلی غنی:** شامل بیش از ۷۰ دامنه CNCF/Cloud-Native و بیش از ۱۰۰ آی‌پی‌ تمیز CDN (بدون نیاز به فایل‌های متنی جداگانه).
+* ⚙️ **تولید خودکار کانفیگ:** کافیست لینک VLESS پایه خود را به برنامه بدهید تا کانفیگ‌های جدید و متصل را با اسم اختصاصی برایتان بسازد.
 * 📊 **مرتب‌سازی بر اساس سرعت واقعی:** محاسبه زمان رفت‌وبرگشت کامل دیتا (`time_total`) و مرتب‌سازی کانفیگ‌ها از پرسرعت‌ترین به کندترین.
-* 🎨 **رابط کاربری تعاملی:** نمایش زنده وضعیت اسکن و پینگ‌ها با رنگ‌بندی حرفه‌ای در ترمینال.
+* 🎨 **رابط کاربری تعاملی:** نمایش زنده وضعیت اسکن و پینگ‌ها با رنگ‌بندی حرفه‌ای در ترمینال سیستم شما.
 
 ---
 
 ## 🛠️ پیش‌نیازها و نصب
 
 ۱. نصب بودن **Python 3**
-۲. نصب بودن **curl** (به طور پیش‌فرض روی لینوکس، مک و ویندوز ۱۰/۱۱ نصب است)
+۲. نصب بودن ابزار **curl** (به طور پیش‌فرض روی لینوکس، مک و ویندوز ۱۰/۱۱ نصب است)
 ۳. دانلود اسکریپت و اجرای آن:
 
 ```bash
-git clone [https://github.com/IR-NETLIFY/NETLIFY-SCANNER.git](https://github.com/IR-NETLIFY/NETLIFY-SCANNER.git)
+git clone [https://github.com/johncarterjourney-rgb/NETLIFY-SCANNER.git](https://github.com/johncarterjourney-rgb/NETLIFY-SCANNER.git)
 cd NETLIFY-SCANNER
-python "IR NETLIFY SCANNER.py"
+python index.py
