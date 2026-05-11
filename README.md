@@ -1,7 +1,7 @@
-# 🚀 ArchiveTell VLESS Scanner (V10 Pro Ultimate)
+# 🚀 ArchiveTell VLESS Scanner (V1 Pro Ultimate)
 
 [![Python 3.x](https://img.shields.io/badge/Python-3.x-blue.svg)](https://www.python.org/)
-[![Version](https://img.shields.io/badge/Version-V10%20Pro-success.svg)](#)
+[![Version](https://img.shields.io/badge/Version-V1%20Pro-success.svg)](#)
 [![Channel](https://img.shields.io/badge/Telegram-@ArchiveTell-2CA5E0.svg)](https://t.me/archivetell)
 [![Developer](https://img.shields.io/badge/Developer-Bachelor⚡️-orange.svg)](#)
 
